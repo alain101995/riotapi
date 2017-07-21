@@ -20,12 +20,15 @@
         makeRequest(url, callback);
     }
 
-    //................................................................................
     function getPlayerLeague(summonerId, server, callback){
         url = buildUrl(summonerId, server, 'lol/league/v3/leagues/by-summoner'); ///{summonerId}
         makeRequest(url, callback);
     }
-    //................................................................................
+
+    function getChampMastery(summonerId, server, callback){
+      let url = buildUrl(summonerId, server, '/lol/champion-mastery/v3/champion-masteries/by-summoner');///{summonerId}
+      makeRequest(url, callback);
+    }
 
     function makeRequest(url, callback){
 
@@ -115,5 +118,6 @@
     getRunes: getRunes,
     getMasteries: getMasteries,
     getUrl: buildUrl,
-    getPlayerLeague: getPlayerLeague
+    getPlayerLeague: getPlayerLeague,
+    getChampMastery: getChampMastery
   };
