@@ -1,0 +1,2 @@
+# riotapi
+Riot API repository
