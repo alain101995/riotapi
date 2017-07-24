@@ -39,16 +39,3 @@ const URL = `https://${server}.api.riotgames.com/lol/${request}/${requiredvalue}
         });
     });
 /*
-Champ Mastery
-/lol/champion-mastery/v3/champion-masteries/by-summoner/{summonerId}
-https://la1.api.riotgames.com/lol/champion-mastery/v3/champion-masteries/by-summoner/59627?api_key=RGAPI-4cb3725c-8b57-41cc-b366-1ad239085bfd
-Player’s league
-/lol/league/v3/leagues/by-summoner/{summonerId}
-https://la1.api.riotgames.com/lol/league/v3/leagues/by-summoner/59627?api_key=RGAPI-4cb3725c-8b57-41cc-b366-1ad239085bfd
-Matchlist
-/lol/match/v3/matchlists/by-account/{accountId}   /recent
-https://la1.api.riotgames.com/lol/match/v3/matchlists/by-account/200038705?api_key=RGAPI-4cb3725c-8b57-41cc-b366-1ad239085bfd /recent
-Account id: 200038705
-Sum id: 59627
- */
-http://ddragon.leagueoflegends.com/tool/

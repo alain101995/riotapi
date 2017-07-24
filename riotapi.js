@@ -2,7 +2,6 @@
    let summonerid = 59627;
    let server = "la1";
    const URL = `https://${server}.api.riotgames.com/lol/platform/v3/runes/by-summoner/${summonerid}`;
-   //const URL2 = `https://${server}.api.riotgames.com/lol/${request}/${requiredvalue}?api_key=${apikey}`;
    const API_KEY = "RGAPI-7997d1c6-acb2-49cc-8b9e-1407300c02d3";
 
    function buildUrl(summonerId, server, endpoint){
@@ -34,25 +33,31 @@
      if(!url){
        callback('something is missing');
        return;
-     }
+    }
 
      let queryString = {
        api_key: API_KEY
-     };
-
+    };
 
      let config = {
        url: url,
        qs: queryString,
        json: true
-     };
+    };
 
      request.get(config, (error, response) => {
        callback(error, response.body);
-     });
+    });
 
-   }
+    }
 
+   module.exports = {
+     getRunes: getRunes,
+     getMasteries: getMasteries,
+     getUrl: buildUrl,
+     getPlayerLeague: getPlayerLeague,
+     getChampMastery: getChampMastery
+   };
    // .filter debe retornar un boolean
    // true: se quedan
    // false: se descartan
@@ -95,12 +100,3 @@
      });
    }
    */
-
-
- module.exports = {
-   getRunes: getRunes,
-   getMasteries: getMasteries,
-   getUrl: buildUrl,
-   getPlayerLeague: getPlayerLeague,
-   getChampMastery: getChampMastery
- };

@@ -1,43 +1,23 @@
-  var firstMethod = function() {
-     var promise = new Promise(function(resolve, reject){
-        setTimeout(function() {
-           console.log('first method completed');
-           resolve({data: '123'});
-        }, 2000);
-     });
-     return promise;
-  };
+var request = require('request');
+var fs = require ('fs');
+const PORT = 3000;
+app.listen(PORT);
+request
+  .get('http://ddragon.leagueoflegends.com/cdn/6.24.1/img/profileicon/588.png ')
+  .on('response', function(response) {
+    console.log(response.statusCode) // 200
+    console.log(response.headers['content-type']) // 'image/png'
+  })
+  .pipe(request.put('http://mysite.com/img.png'))
 
-  var secondMethod = function(someStuff) {
-     var promise = new Promise(function(resolve, reject){
-        setTimeout(function() {
-           console.log('second method completed');
-           resolve({newData: someStuff.data + ' some more data'});
-        }, 2000);
-     });
-     return promise;
-  };
+/*
+request
+  .get('http://ddragon.leagueoflegends.com/cdn/6.24.1/img/profileicon/588.png')
+  .on('response', function(response) {
+    console.log(response.statusCode) // 200
+    console.log(response.headers['content-type']) // 'image/png'
+  })
+  .pipe(fs.createWriteStream('doodle.png'))
 
-  var thirdMethod = function(someStuff) {
-     var promise = new Promise(function(resolve, reject){
-        setTimeout(function() {
-           console.log('third method completed');
-           resolve({result: someStuff.newData});
-        }, 3000);
-     });
-     return promise;
-  };
-
-  firstMethod()
-     .then(secondMethod)
-     .then(thirdMethod)
-     .then(buildUrl);
-
-     function buildUrl(summonerId, server, endpoint){
-          return `https://${server}.api.riotgames.com/${endpoint}/${summonerId}`;
-      }
-
-      function getMasteries(summonerId, server, callback) {
-          url = buildUrl(summonerId, server);
-          makeRequest(url, callback);
-      }
+DOWNLOAD CONTENT
+  */

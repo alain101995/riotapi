@@ -34,27 +34,22 @@
     let summonerId = req.params.summonerId;
     let server = req.query.server || 'la1';
     riotApi.getMasteries(summonerId, server, function hacerAlTerminar(errorMessage, masteries){
-
       if(errorMessage){
         res.json({error: errorMessage});
         return;
       }
-
       res.json(masteries);
     });
   }
-  function getPlayerLeague(req, res){
 
+  function getPlayerLeague(req, res){
     let summonerId = req.params.summonerId;
     let server = req.query.server || 'la1';
-    riotApi.getPlayerLeague(summonerId, server, (errorMessage, playerLeague)=>{
-
-      if(errorMessage){
-        return res.json({error: errorMessage});
-      }
-
-      res.json(playerLeague);
-    });
+    riotApi.getPlayerLeague(summonerId, server, playerLeague)=>{
+      let promise = new Promise(function(resolve, reject){
+        resolve(res.json(playerLeague));
+      });
+    };
   }
 
   function getChampMastery(req, res){
