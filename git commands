@@ -1,5 +1,0 @@
-git clone
-git add (file)
-git commit -m "Message"
-git push origin (your branch)
-git reset
