@@ -2,39 +2,61 @@
    const request = require("request");
    let summonerid = 59627;
    let server = "la1";
-   const API_KEY = "RGAPI-cecefeaf-fcf7-4b26-9bb4-9ccc4dbac991";
+   const API_KEY = "RGAPI-42acd204-1906-4b0f-aba2-aa69dd66099f";
+   let requestedToday = 0;
 
    function buildUrl(summonerId, server, endpoint){
        return `https://${server}.api.riotgames.com/${endpoint}/${summonerId}`;
    }
 
    var getMasteries = function(summonerId, server) {
-        let promise = new Promise(function(resolve, reject){
+      return new Promise(function(resolve, reject){
           let url = buildUrl(summonerId, server, 'lol/platform/v3/masteries/by-summoner');
-           resolve(makeRequest(url));
-            });
+          makeRequest(url).then((data)=>{
+             console.log(data)
+             resolve(data)
+          }).catch(error =>{
+             reject(error)
+          })
+      });
    }
 
    var getRunes = function(summonerId, server) {
-        let promise = new Promise(function(resolve, reject){
+         return new Promise(function(resolve, reject){
           let url = buildUrl(summonerId, server, 'lol/platform/v3/runes/by-summoner');
-           resolve(makeRequest(url));
-            });
+          makeRequest(url).then((data)=>{
+             resolve(data)
+          }).catch(error =>{
+             reject(error)
+          })
+      });
    }
 
    var getPlayerLeague = function(summonerId, server) {
-        let promise = new Promise(function(resolve, reject){
-          let url = buildUrl(summonerId, server, 'lol/league/v3/leagues/by-summoner');
-           resolve(makeRequest(url));
-            });
+      return new Promise(function(resolve, reject){
+         let url = buildUrl(summonerId, server, 'lol/league/v3/leagues/by-summoner');
+         makeRequest(url).then((data)=>{
+           resolve(data)
+       }).catch(error =>{
+           reject(error)
+       })
+   });
+      /*
+      let url = buildUrl(summonerId, server, 'lol/league/v3/leagues/by-summoner');
+      return makeRequest(url);
+      */
    }
 
    var getChampMastery = function(summonerId, server) {
-        return new Promise(function(resolve, reject){
-          let url = buildUrl(summonerId, server, '/lol/champion-mastery/v3/champion-masteries/by-summoner');
-           resolve(makeRequest(url));
-            });
-
+         return new Promise(function(resolve, reject){
+            let url = buildUrl(summonerId, server, 'lol/champion-mastery/v3/champion-masteries/by-summoner');
+            makeRequest(url).then((data)=>{
+              //data.customValue = true;
+              resolve(data)
+          }).catch(error =>{
+              reject(error)
+          })
+      });
    }
 
    function makeRequest(url){
