@@ -61,14 +61,15 @@ function getChampMastery(req, res, next) {
   let summonerId = req.params.summonerId;
   let server = req.query.server || 'la1';
   riotApi.getChampMastery(summonerId, server).then((champm) => {
-    let championPoints = champm.map(function cleanData(champMastery) {
+  /*  let championPoints = champm.map(function cleanData(champMastery) {
       let result = {
         championId: champMastery.championId,
         championPoints: champMastery.championPoints
       }
       return result;
     });
-    res.json(championPoints);
+    */
+    res.json(champm); //championPoints
   }, (error) => {
     console.log('error', error);
     next(error);

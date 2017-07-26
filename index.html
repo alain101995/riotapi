@@ -9,63 +9,50 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 </head>
-<body onload="myFunction()">
-
-  <div class="container">
-    <h2>Table</h2>
-    <p></p>
-    <div class="table-responsive">
-    <table class="table">
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Firstname</th>
-          <th>Lastname</th>
-          <th>Age</th>
-          <th>City</th>
-          <th>Country</th>
-        </tr>
-      </thead>
-      <tbody id="leagueContent">
-
-      </tbody>
-    </table>
-    </div>
-  </div>
+<body>
+<input type="text" id="summoner" value="59627" placeholder="Enter your summoner name" />
+<input type="button" value="Search" />
   <div id="test">
-  </div>
+  </div><!--
+  <form>
+  <input type="radio" name="gender" value="champm"> Champion Mastery<br>
+  <input type="radio" name="gender" value="playerLeague"> Player's League<br>
+  <input type="radio" name="gender" value="runes"> Runes<br>
+  <input type="radio" name="gender" value="masteries"> Masteries<br>
+</form>-->
+  <table class="table table-bordered">
+    <tr>
+        <th> championId</th>
+        <th> championPoints</th>
+    </tr>
+</table>
   <script>
   $(document).ready(function() {
+    var summoner = document.getElementById('summoner')
       $.ajax({
-          url: 'http://127.0.0.1:3000/league/59627',//riotapi
+          url: 'http://127.0.0.1:3000/champm/59627',//riotapi
           //dataType: "json",
           cache: false,
-          timeout: 5000,
+          //timeout: 5000,
           method: 'get',
           success: function(data) {
-              $("#test").append(JSON.stringify(data));
+            //  $("#test").append(JSON.stringify(data));
+              $(document).ready(function () {
+                  var tr;
+                  for (var i = 0; i < data.length; i++) {
+                      tr = $('<tr/>');
+                      tr.append("<td>" + data[i].championId + "</td>");
+                      tr.append("<td>" + data[i].championPoints + "</td>");
+                      $('table').append(tr);
+                  }
+              });
           },
           error: function(jqXHR, textStatus, errorThrown) {
               alert('error ' + textStatus + " " + errorThrown);
           }
       });
   });
-  /*
-  $(document).ready(function(){
-    $.getJSON("127.0.0.1:3000/runes/:summonerId", function(data){
-      var example_data = '';
-      $.each(data, function(key, value){
-          example_data += '<tr>';
-          example_data += '<td>' + value.name + '</td>';
-          example_data += '<td>' + value.address + '</td>';
-          example_data += '<td>' + value.gender + '</td>';
-          example_data += '<td>' + value.designation + '</td>';
-          example_data += '<td>' + value.age + '</td>';
-          example_data += '</tr>';
-      });
-      $('example_table').append(example_data);
-    });
-  });*/
+
   </script>
 </body>
 </html>
