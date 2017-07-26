@@ -1,8 +1,7 @@
 const request = require("request");
 let summonerid = 59627;
-let server = "la1";
+//let server = "la1";
 const API_KEY = "RGAPI-f35372e9-c045-48ca-bcd1-6bd653e9deac";
-let requestedToday = 0;
 
 function buildUrl(summonerId, server, endpoint) {
   return `https://${server}.api.riotgames.com/${endpoint}/${summonerId}`;
@@ -12,7 +11,7 @@ var getMasteries = function(summonerId, server) {
   return new Promise(function(resolve, reject) {
     let url = buildUrl(summonerId, server, 'lol/platform/v3/masteries/by-summoner');
     makeRequest(url).then((data) => {
-      console.log(data)
+      //console.log(data)
       resolve(data)
     }).catch(error => {
       reject(error)
@@ -50,7 +49,6 @@ var getChampMastery = function(summonerId, server) {
   return new Promise(function(resolve, reject) {
     let url = buildUrl(summonerId, server, 'lol/champion-mastery/v3/champion-masteries/by-summoner');
     makeRequest(url).then((data) => {
-      //data.customValue = true;
       resolve(data)
     }).catch(error => {
       reject(error)
