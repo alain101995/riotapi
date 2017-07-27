@@ -9,6 +9,20 @@
   </head>
   <body>
 
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">iTexico</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="#">Home</a></li>
+      <li><a href="#">Page 1</a></li>
+      <li><a href="#">Page 2</a></li>
+      <li><a href="#">Page 3</a></li>
+    </ul>
+  </div>
+</nav>
+
     <div class="container">
       <div class="jumbotron">
         <h1>Hello, world</h1>
@@ -19,18 +33,19 @@
 
     <div class="container">
       <div class="row">
-        <h3 class="text center"><div class="col-xs-12 col-md-6">Summoner name</div></h3>
-        <label class="radio-inline"><input type="radio" name="optradio">Option 1</label>
-        <label class="radio-inline"><input type="radio" name="optradio">Option 2</label>
-        <label class="radio-inline"><input type="radio" name="optradio">Option 3</label>
+    <form class="navbar-form navbar-left" role="search">
+      <div class="form-group">
+        <input type="text" class="form-control" placeholder="Summoner name">
+      </div>
+      <button type="submit" class="btn btn-default">Search</button>
+    </form>
+        <label class="radio-inline"><input type="radio" name="optradio">Player's League</label>
+        <label class="radio-inline"><input type="radio" name="optradio">Champion Mastery</label>
+        <label class="radio-inline"><input type="radio" name="optradio">Runes</label>
+        <label class="radio-inline"><input type="radio" name="optradio">Masteries</label>
       </div>
       <div class="row">
-        <div class="col-xs-12 col-md-3"><input type="text" class="form-control" placeholder="Summoner name" /></div>
-        <div class="col-xs-12 col-md-3"><button type="button" class="btn btn-success">Success</button></div>
-      </div>
-      <div class="row">
-        <div class="col-xs-12 col-md-3"><input type="text" class="form-control" placeholder="Summoner ID" /></div>
-        <div class="col-xs-12 col-md-3"><button type="button" class="btn btn-success">Success</button></div>
+        <div class="col-xs-12 col-md-3"><h5>Summoner ID </h5></div>
       </div>
     </div>
     <!--
