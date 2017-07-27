@@ -1,7 +1,7 @@
 const request = require("request");
 let summonerid = 59627;
 //let server = "la1";
-const API_KEY = "RGAPI-f35372e9-c045-48ca-bcd1-6bd653e9deac";
+const API_KEY = "RGAPI-ff47b210-c7ab-451e-a697-b4b6a905628f";
 
 function buildUrl(summonerId, server, endpoint) {
   return `https://${server}.api.riotgames.com/${endpoint}/${summonerId}`;

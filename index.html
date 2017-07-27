@@ -12,10 +12,9 @@
 <body>
 <input type="text" class="form-control" id="summoner" value="59627" placeholder="Enter your summoner id" />
 <!-- <input type="button" class="btn btn-success" id="search" value="Search"/> -->
-  <div id="test">
-  </div>
+
   <form>
-  <input type="radio" name="gender" id="champm" value="champm"> Champion Mastery<br>
+  <input type="button" name="gender" id="champmasterie" value="champmasterie"> Champion Mastery<br>
   <input type="radio" name="gender" id="playerLeague" value="playerLeague"> Player's League<br>
   <input type="radio" name="gender" id="runes" value="runes"> Runes<br>
   <input type="radio" name="gender" id="masteries" value="masteries"> Masteries<br>
@@ -27,21 +26,18 @@
           <th> championPoints</th>
       </tr>
     </thead>
-    <tbody id="champmasteries">
+    <tbody id="result">
 
     </tbody>
 </table>
 
   <script>
   var summoner = document.getElementById('summoner');
-$('#champm').click(function(){
-  if($('#champm').is(':checked')){
-    $('#champm').attr('disabled', true);
-    $('#playerLeague').attr('disabled', false);
+$('#champmasterie').click(function(){
 
-    $("#champmasteries").empty();
+    $("#result").empty();
     $.ajax({
-        url: 'http://127.0.0.1:3000/champm/' + summoner.value, //+summoner
+        url: 'http://127.0.0.1:3000/runes/' + summoner.value, //+summoner
         //dataType: "json",
         cache: false,
         //timeout: 5000,
@@ -51,23 +47,23 @@ $('#champm').click(function(){
                 var tr;
                 for (var i = 0; i < data.length; i++) {
                     tr = $('<tr/>');
-                    tr.append("<td>" + data[i].championId + "</td>");
-                    tr.append("<td>" + data[i].championPoints + "</td>");
-                    $('#champmasteries').append(tr);
+                    tr.append("<td>" + data[i].pages.id + "</td>");
+                    tr.append("<td>" + data[i].id.name + "</td>");
+                    $('#result').append(tr);
                 }
         },
         error: function(jqXHR, textStatus, errorThrown) {
             alert('error ' + textStatus + " " + errorThrown);
         }
     });
-  }
+
 })
 //  -----playerLeague------
 $('#playerLeague').click(function(){
   if($('#playerLeague').is(':checked')){
     $('#playerLeague').attr('disabled', true);
-    $('#champm').attr('disabled', false);
-    $("#champmasteries").empty();
+    $('#champmasterie').attr('disabled', false);
+    $("#result").empty();
     $.ajax({
         url: 'http://127.0.0.1:3000/league/' + summoner.value,
         cache: false,
@@ -78,7 +74,7 @@ $('#playerLeague').click(function(){
                     tr = $('<tr/>');
                     tr.append("<td>" + data[i].name + "</td>");
                     tr.append("<td>" + data[i].tier + "</td>");
-                    $('tbody').append(tr);
+                    $('#result').append(tr);
                 }
         },
         error: function(jqXHR, textStatus, errorThrown) {
