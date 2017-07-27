@@ -5,8 +5,6 @@
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 
 <body>
@@ -43,41 +41,53 @@
         <button type="button" id="search" class="btn btn-default">Search</button><br />
       </form>
 
-        <div class="btn-group" data-toggle="buttons">
-                <label class="btn btn-primary active">
+      <div class="btn-group" data-toggle="buttons">
+        <label class="btn btn-primary active">
           <input type="radio" name="options" id="champmasterie" autocomplete="off" checked> Champion Mastery
         </label>
-                <label class="btn btn-primary">
+        <label class="btn btn-primary">
           <input type="radio" name="options" id="playerLeague" autocomplete="off">Player's League
         </label>
-                <label class="btn btn-primary">
+        <label class="btn btn-primary">
           <input type="radio" name="options" id="runes" autocomplete="off">  Runes
         </label>
-                <label class="btn btn-primary">
+        <label class="btn btn-primary">
           <input type="radio" name="options" id="masteries" autocomplete="off">  Masteries
         </label>
-        </div>
-</div>
+      </div>
     </div>
-        <table id="request" class="table table-bordered">
-          <thead>
-            <tr>
-              <th> championId</th>
-              <th> championPoints</th>
-            </tr>
-          </thead>
-          <tbody id="result">
-          </tbody>
-        </table>
 
-</body>
-
+    <table id="request" class="table table-bordered">
+      <thead>
+        <tr>
+          <th> Data 1</th>
+          <th> Data 2</th>
+        </tr>
+      </thead>
+      <tbody id="result">
+      </tbody>
+    </table>
+  </div>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script>
-  var summoner = document.getElementById('summoner');
-  $('#search').click(function(){
-      if($('#champmasterie').is(':checked')){
-      $("#result").empty();
-      $.ajax({
+    var summoner = document.getElementById('summoner');
+    var sumid
+    $.ajax({
+      type: "POST",
+      url: 'http://127.0.0.1:3000/playerid/' + summoner.value,
+      dataType: "text",
+      async: false
+      success: function(data) {
+        sumid = data;
+      }
+    })
+
+
+    $('#search').click(function() {
+      if ($('#champmasterie').is(':checked')) {
+        $("#result").empty();
+        $.ajax({
           url: 'http://127.0.0.1:3000/champm/' + summoner.value, //+summoner
           //dataType: "json",
           cache: false,
@@ -85,25 +95,25 @@
           method: 'get',
           success: function(data) {
             //  $("#test").append(JSON.stringify(data));
-                  var tr;
-                  for (var i = 0; i < data.length; i++) {
-                      tr = $('<tr/>');
-                      tr.append("<td>" + data[i].championId + "</td>");
-                      tr.append("<td>" + data[i].championPoints + "</td>");
-                      $('#result').append(tr);
-                  }
+            var tr;
+            for (var i = 0; i < data.length; i++) {
+              tr = $('<tr/>');
+              tr.append("<td>" + data[i].championId + "</td>");
+              tr.append("<td>" + data[i].championPoints + "</td>");
+              $('#result').append(tr);
+            }
           },
           error: function(jqXHR, textStatus, errorThrown) {
-              alert('error ' + textStatus + " " + errorThrown);
+            alert('error ' + textStatus + " " + errorThrown);
           }
-      });
+        });
       }
-  })
+    })
 
-  $('#search').click(function(){
-    if($('#playerLeague').is(':checked')){
-      $("#result").empty();
-      $.ajax({
+    $('#search').click(function() {
+      if ($('#playerLeague').is(':checked')) {
+        $("#result").empty();
+        $.ajax({
           url: 'http://127.0.0.1:3000/league/' + summoner.value, //+summoner
           //dataType: "json",
           cache: false,
@@ -111,25 +121,25 @@
           method: 'get',
           success: function(data) {
             //  $("#test").append(JSON.stringify(data));
-                  var tr;
-                  for (var i = 0; i < data.length; i++) {
-                      tr = $('<tr/>');
-                      tr.append("<td>" + data[i].name + "</td>");
-                      tr.append("<td>" + data[i].tier + "</td>");
-                      $('#result').append(tr);
-                  }
+            var tr;
+            for (var i = 0; i < data.length; i++) {
+              tr = $('<tr/>');
+              tr.append("<td>" + data[i].name + "</td>");
+              tr.append("<td>" + data[i].tier + "</td>");
+              $('#result').append(tr);
+            }
           },
           error: function(jqXHR, textStatus, errorThrown) {
-              alert('error ' + textStatus + " " + errorThrown);
+            alert('error ' + textStatus + " " + errorThrown);
           }
-      });
-    }
-  })
+        });
+      }
+    })
 
-  $('#search').click(function(){
-      if($('#runes').is(':checked')){
-      $("#result").empty();
-      $.ajax({
+    $('#search').click(function() {
+      if ($('#runes').is(':checked')) {
+        $("#result").empty();
+        $.ajax({
           url: 'http://127.0.0.1:3000/runes/' + summoner.value, //+summoner
           //dataType: "json",
           cache: false,
@@ -137,25 +147,25 @@
           method: 'get',
           success: function(data) {
             //  $("#test").append(JSON.stringify(data));
-                  var tr;
-                  for (var i = 0; i < data.length; i++) {
-                      tr = $('<tr/>');
-                      tr.append("<td>" + data[i].championId + "</td>");
-                      tr.append("<td>" + data[i].championPoints + "</td>");
-                      $('#result').append(tr);
-                  }
+            var tr;
+            for (var i = 0; i < data.length; i++) {
+              tr = $('<tr/>');
+              tr.append("<td>" + data[i].championId + "</td>");
+              tr.append("<td>" + data[i].championPoints + "</td>");
+              $('#result').append(tr);
+            }
           },
           error: function(jqXHR, textStatus, errorThrown) {
-              alert('error ' + textStatus + " " + errorThrown);
+            alert('error ' + textStatus + " " + errorThrown);
           }
-      });
+        });
       }
-  })
+    })
 
-  $('#search').click(function(){
-      if($('#masteries').is(':checked')){
-      $("#result").empty();
-      $.ajax({
+    $('#search').click(function() {
+      if ($('#masteries').is(':checked')) {
+        $("#result").empty();
+        $.ajax({
           url: 'http://127.0.0.1:3000/masteries/' + summoner.value, //+summoner
           //dataType: "json",
           cache: false,
@@ -163,19 +173,22 @@
           method: 'get',
           success: function(data) {
             //  $("#test").append(JSON.stringify(data));
-                  var tr;
-                  for (var i = 0; i < data.length; i++) {
-                      tr = $('<tr/>');
-                      tr.append("<td>" + data[i].masteries.id + "</td>");
-                      tr.append("<td>" + data[i].masteries.name + "</td>");
-                      $('#result').append(tr);
-                  }
+            var tr;
+            for (var i = 0; i < data.length; i++) {
+              tr = $('<tr/>');
+              tr.append("<td>" + data[i].pages.masteries.id + "</td>");
+              tr.append("<td>" + data[i].pages.masteries.name + "</td>");
+              $('#result').append(tr);
+            }
           },
           error: function(jqXHR, textStatus, errorThrown) {
-              alert('error ' + textStatus + " " + errorThrown);
+            alert('error ' + textStatus + " " + errorThrown);
           }
-      });
+        });
       }
-  })
+    })
   </script>
+
+</body>
+
 </html>

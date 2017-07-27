@@ -1,15 +1,24 @@
 const request = require("request");
-let summonerid = 59627;
-//let server = "la1";
 const API_KEY = "RGAPI-ff47b210-c7ab-451e-a697-b4b6a905628f";
 
-function buildUrl(summonerId, server, endpoint) {
-  return `https://${server}.api.riotgames.com/${endpoint}/${summonerId}`;
+function buildUrl(value, server, endpoint) {
+  return `https://${server}.api.riotgames.com/${endpoint}/${value}`;
 }
 
-var getMasteries = function(summonerId, server) {
+var getPlayerId = function(value, server){
+  return new Promise(function(resolve, reject){
+    let url = buildUrl(value, server, 'lol/summoner/v3/summoners/by-name')
+    makeRequest(url).then((data) => {
+      resolve(data)
+    }).catch(error =>{
+      reject(error)
+    })
+  });
+}
+
+var getMasteries = function(value, server) {
   return new Promise(function(resolve, reject) {
-    let url = buildUrl(summonerId, server, 'lol/platform/v3/masteries/by-summoner');
+    let url = buildUrl(value, server, 'lol/platform/v3/masteries/by-summoner');
     makeRequest(url).then((data) => {
       //console.log(data)
       resolve(data)
@@ -19,9 +28,9 @@ var getMasteries = function(summonerId, server) {
   });
 }
 
-var getRunes = function(summonerId, server) {
+var getRunes = function(value, server) {
   return new Promise(function(resolve, reject) {
-    let url = buildUrl(summonerId, server, 'lol/platform/v3/runes/by-summoner');
+    let url = buildUrl(value, server, 'lol/platform/v3/runes/by-summoner');
     makeRequest(url).then((data) => {
       resolve(data)
     }).catch(error => {
@@ -30,9 +39,9 @@ var getRunes = function(summonerId, server) {
   });
 }
 
-var getPlayerLeague = function(summonerId, server) {
+var getPlayerLeague = function(value, server) {
   return new Promise(function(resolve, reject) {
-    let url = buildUrl(summonerId, server, 'lol/league/v3/leagues/by-summoner');
+    let url = buildUrl(value, server, 'lol/league/v3/leagues/by-summoner');
     makeRequest(url).then((data) => {
       resolve(data)
     }).catch(error => {
@@ -40,14 +49,14 @@ var getPlayerLeague = function(summonerId, server) {
     })
   });
   /*
-  let url = buildUrl(summonerId, server, 'lol/league/v3/leagues/by-summoner');
+  let url = buildUrl(value, server, 'lol/league/v3/leagues/by-summoner');
   return makeRequest(url);
   */
 }
 
-var getChampMastery = function(summonerId, server) {
+var getChampMastery = function(value, server) {
   return new Promise(function(resolve, reject) {
-    let url = buildUrl(summonerId, server, 'lol/champion-mastery/v3/champion-masteries/by-summoner');
+    let url = buildUrl(value, server, 'lol/champion-mastery/v3/champion-masteries/by-summoner');
     makeRequest(url).then((data) => {
       resolve(data)
     }).catch(error => {
@@ -84,5 +93,6 @@ module.exports = {
   getMasteries: getMasteries,
   getUrl: buildUrl,
   getPlayerLeague: getPlayerLeague,
-  getChampMastery: getChampMastery
+  getChampMastery: getChampMastery,
+  getPlayerId:getPlayerId
 };

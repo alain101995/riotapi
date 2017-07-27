@@ -15,16 +15,28 @@ app.get('/', function(req, res) {
   res.send('Main page');
 });
 
-app.get('/runes/:summonerId', getRunes);
-app.get('/masteries/:summonerId', getMasteries);
-app.get('/league/:summonerId', getPlayerLeague);
-app.get('/champm/:summonerId', getChampMastery);
+app.get('/runes/:value', getRunes);
+app.get('/masteries/:value', getMasteries);
+app.get('/league/:value', getPlayerLeague);
+app.get('/champm/:value', getChampMastery);
+app.get('/playerid/:value', getPlayerId);
+
+function getPlayerId(req, res, next) {
+  let value = req.params.value;
+  let server = req.query.server || 'la1';
+  riotApi.getPlayerId(value, server).then((playerId) => {
+    res.json(playerId);
+  }, (error) => {
+    console.log('error', error);
+    next(error);
+  });
+}
 
 function getRunes(req, res, next) {
 
-  let summonerId = req.params.summonerId;
+  let value = req.params.value;
   let server = req.query.server || 'la1';
-  riotApi.getRunes(summonerId, server).then((runes) => {
+  riotApi.getRunes(value, server).then((runes) => {
     res.json(runes);
   }, (error) => {
     console.log('error', error);
@@ -34,9 +46,9 @@ function getRunes(req, res, next) {
 
 function getMasteries(req, res, next) {
 
-  let summonerId = req.params.summonerId;
+  let value = req.params.value;
   let server = req.query.server || 'la1';
-  riotApi.getMasteries(summonerId, server).then((masteries) => {
+  riotApi.getMasteries(value, server).then((masteries) => {
     res.json(masteries);
   }, (error) => {
     console.log('error', error);
@@ -46,9 +58,9 @@ function getMasteries(req, res, next) {
 
 function getPlayerLeague(req, res, next) {
 
-  let summonerId = req.params.summonerId;
+  let value = req.params.value;
   let server = req.query.server || 'la1';
-  riotApi.getPlayerLeague(summonerId, server).then((playerLeague) => {
+  riotApi.getPlayerLeague(value, server).then((playerLeague) => {
     res.json(playerLeague);
   }, (error) => {
     console.log('error', error);
@@ -58,17 +70,17 @@ function getPlayerLeague(req, res, next) {
 
 function getChampMastery(req, res, next) {
 
-  let summonerId = req.params.summonerId;
+  let value = req.params.value;
   let server = req.query.server || 'la1';
-  riotApi.getChampMastery(summonerId, server).then((champm) => {
-  /*  let championPoints = champm.map(function cleanData(champMastery) {
-      let result = {
-        championId: champMastery.championId,
-        championPoints: champMastery.championPoints
-      }
-      return result;
-    });
-    */
+  riotApi.getChampMastery(value, server).then((champm) => {
+    /*  let championPoints = champm.map(function cleanData(champMastery) {
+        let result = {
+          championId: champMastery.championId,
+          championPoints: champMastery.championPoints
+        }
+        return result;
+      });
+      */
     res.json(champm); //championPoints
   }, (error) => {
     console.log('error', error);
