@@ -1,5 +1,5 @@
 const request = require("request");
-const API_KEY = "RGAPI-ff47b210-c7ab-451e-a697-b4b6a905628f";
+const API_KEY = "RGAPI-acd0694d-52fd-479c-adca-162cdd31ff06";
 
 function buildUrl(value, server, endpoint) {
   return `https://${server}.api.riotgames.com/${endpoint}/${value}`;
@@ -54,40 +54,68 @@ var getPlayerLeague = function(value, server) {
   */
 }
 
+
+/**
+* Obtener maestrias
+* Consultar la API de Riot para obtener una lista de maestrias
+* @param {string | number} summoner Identificador de la cuenta a consultar
+* @param {string} server Identificador del servidor de Riot en donde fue registrada la cuenta
+* @return {Promise}
+*/
 var getChampMastery = function(value, server) {
+  console.log(value, server);
   return new Promise(function(resolve, reject) {
+    // Generar URL incluyendo parametros del summoner y servidor
     let url = buildUrl(value, server, 'lol/champion-mastery/v3/champion-masteries/by-summoner');
+
+    // Realizar peticion HTTP al servidor de RIOT
     makeRequest(url).then((data) => {
+      // Exitoso, promesa resuelta
       resolve(data)
     }).catch(error => {
+      // Error, promesa rechazada
       reject(error)
     })
   });
 }
 
+/**
+* Hacer HTTP Request a la URL solicitada
+* @param {string} url Servidor y Endpoint a consultar
+* @return {Promise}
+*/
 function makeRequest(url) {
   return new Promise(function(resolve, reject) {
     if (!url) {
+      // Si la URL está en blanco ('') o no tiene valor (undefined o null)
       reject('something is missing');
-      return;
+      return; // Evitar continuacion
     }
 
+    // Generar objeto QueryString que contiene la API Key de Riot
     let queryString = {
       api_key: API_KEY
     };
 
+    // Generar objeto de configuracion necesario por el modulo Request.js
     let config = {
-      url: url,
-      qs: queryString,
-      json: true
+      url: url, // URL a consultar
+      qs: queryString, // queryString que contiene la API key, ej: ?api_key=xx
+      json: true // Se espera una respuesta en JSON, por lo tanto se parseara a objeto de javascript
     };
 
+    // Peticion con el verbo GET
     request.get(config, (error, response) => {
+      // Callback de peticion,
+      // TODO: Validar si hubo un error en la peticion
+
+      // Peticion exitosa, resolver promesa con el body de la respuesta
+      // Todas las respuestas contiene un cuerpo, que request.js define en response.body
       resolve(response.body);
     });
   });
 }
-
+//Permite exportar funciones a otros archivos.
 module.exports = {
   getRunes: getRunes,
   getMasteries: getMasteries,

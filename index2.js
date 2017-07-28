@@ -14,16 +14,22 @@ app.use(function(req, res, next) {
 app.get('/', function(req, res) {
   res.send('Main page');
 });
+/**
+* Middleware es cualquier numero de funciones que son invocadas por express. Ejemplo:
+* Middleware -> app.get'/playerid/:value'
+* Función que llama el Middleware -> getPlayerId
+*/
 
+app.get('/playerid/:value', getPlayerId);
 app.get('/runes/:value', getRunes);
 app.get('/masteries/:value', getMasteries);
 app.get('/league/:value', getPlayerLeague);
 app.get('/champm/:value', getChampMastery);
-app.get('/playerid/:value', getPlayerId);
 
 function getPlayerId(req, res, next) {
   let value = req.params.value;
   let server = req.query.server || 'la1';
+  //console.log(server)
   riotApi.getPlayerId(value, server).then((playerId) => {
     res.json(playerId);
   }, (error) => {
@@ -67,21 +73,24 @@ function getPlayerLeague(req, res, next) {
     next(error);
   });
 }
+/**
+*@param req. Argumento a la funcion middleware
+*@param
+*@param
+*
+*/
 
 function getChampMastery(req, res, next) {
-
+  //Se inicia una variable.......
   let value = req.params.value;
   let server = req.query.server || 'la1';
+  //riotApi
   riotApi.getChampMastery(value, server).then((champm) => {
-    /*  let championPoints = champm.map(function cleanData(champMastery) {
-        let result = {
-          championId: champMastery.championId,
-          championPoints: champMastery.championPoints
-        }
-        return result;
-      });
-      */
-    res.json(champm); //championPoints
+
+/**
+*@param champm obtenido
+*/
+    res.json(champm);
   }, (error) => {
     console.log('error', error);
     next(error);

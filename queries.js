@@ -39,3 +39,12 @@ const URL = `https://${server}.api.riotgames.com/lol/${request}/${requiredvalue}
         });
     });
 /*
+
+/*  let championPoints = champm.map(function cleanData(champMastery) {
+    let result = {
+      championId: champMastery.championId,
+      championPoints: champMastery.championPoints
+    }
+    return result;
+  });
+  */
