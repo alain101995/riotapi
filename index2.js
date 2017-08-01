@@ -1,10 +1,12 @@
 var express = require('express');
 var app = express();
 const riotApi = require('./riotapi2');
-const hostname = '127.0.0.1';
+//const hostname = '127.0.0.1';
 const PORT = 3000;
 app.listen(PORT);
 
+//req = representa la peticion http que contiene todos los datos de la petición
+//res = representa la respuesta o datos que express da cuando recibe una request
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -19,19 +21,27 @@ app.get('/', function(req, res) {
 * Middleware -> app.get'/playerid/:value'
 * Función que llama el Middleware -> getPlayerId
 */
-
+//app.METHOD(PATH, HANDLER)
+//app es una instancia de express.
+//METHOD es un método de solicitud HTTP.
+//PATH es una vía de acceso en el servidor.
+//HANDLER es la función que se ejecuta cuando se correlaciona la ruta.
 app.get('/playerid/:value', getPlayerId);
 app.get('/runes/:value', getRunes);
 app.get('/masteries/:value', getMasteries);
 app.get('/league/:value', getPlayerLeague);
 app.get('/champm/:value', getChampMastery);
-
+//next pasa el control a la siguiente función del middleware, de lo contrario la solicitud quedará colgada
 function getPlayerId(req, res, next) {
-  let value = req.params.value;
+  let value = req.params.value; //SummonerId o summoner Name
   let server = req.query.server || 'la1';
-  //console.log(server)
   riotApi.getPlayerId(value, server).then((playerId) => {
+
+    /**
+    *Datos del request obtenidos y mostrados en forma de JSON
+    */
     res.json(playerId);
+    //En caso de no completar lo anterior, muestra un error ...Especificar NEXT
   }, (error) => {
     console.log('error', error);
     next(error);
@@ -73,23 +83,11 @@ function getPlayerLeague(req, res, next) {
     next(error);
   });
 }
-/**
-*@param req. Argumento a la funcion middleware
-*@param
-*@param
-*
-*/
 
 function getChampMastery(req, res, next) {
-  //Se inicia una variable.......
   let value = req.params.value;
   let server = req.query.server || 'la1';
-  //riotApi
   riotApi.getChampMastery(value, server).then((champm) => {
-
-/**
-*@param champm obtenido
-*/
     res.json(champm);
   }, (error) => {
     console.log('error', error);
