@@ -16,10 +16,10 @@ app.use(function(req, res, next) {
 app.get('/', function(req, res) {
   res.send('Main page');
 });
-/**
-* Middleware es cualquier numero de funciones que son invocadas por express. Ejemplo:
-* Middleware -> app.get'/playerid/:value'
-* Función que llama el Middleware -> getPlayerId
+/*
+Middleware es cualquier numero de funciones que son invocadas por express. Ejemplo:
+Middleware -> app.get'/playerid/:value'
+Función que llama el Middleware -> getPlayerId
 */
 //app.METHOD(PATH, HANDLER)
 //app es una instancia de express.
@@ -35,13 +35,13 @@ app.get('/champm/:value', getChampMastery);
 function getPlayerId(req, res, next) {
   let value = req.params.value; //SummonerId o summoner Name
   let server = req.query.server || 'la1';
+  console.log(value)
   riotApi.getPlayerId(value, server).then((playerId) => {
 
     /**
     *Datos del request obtenidos y mostrados en forma de JSON
     */
     res.json(playerId);
-    //En caso de no completar lo anterior, muestra un error ...Especificar NEXT
   }, (error) => {
     console.log('error', error);
     next(error);

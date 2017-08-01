@@ -103,7 +103,6 @@ function makeRequest(url) {
       qs: queryString, // queryString que contiene la API key, ej: ?api_key=xx
       json: true // Se espera una respuesta en JSON, por lo tanto se parseara a objeto de javascript
     };
-
     // Peticion con el verbo GET
     request.get(config, (error, response) => {
       // Callback de peticion,

@@ -9,7 +9,7 @@ https://expressjs.com/en/4x/api.html#req
 --------------
 jlanderos@itexico.net
 
-app.get('/hi/:param1', function(req,res){} );
+app.get('/hi/:param1', function(req, res){} );
 and given this URL  http://www.google.com/hi/there?qs1=you&qs2=tube
 
 You will have:
