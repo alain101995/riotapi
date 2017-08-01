@@ -13,39 +13,57 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.get('/', function(req, res) {
-  res.send('Main page');
+app.use('/', function(req, res, next) {
+  console.log(new Date());
+  next();
 });
 /*
 Middleware es cualquier numero de funciones que son invocadas por express. Ejemplo:
 Middleware -> app.get'/playerid/:value'
 Función que llama el Middleware -> getPlayerId
+app.METHOD(PATH, HANDLER)
+app es una instancia de express.
+METHOD es un método de solicitud HTTP.
+PATH es una vía de acceso en el servidor.
+HANDLER es la función que se ejecuta cuando se correlaciona la ruta.
 */
-//app.METHOD(PATH, HANDLER)
-//app es una instancia de express.
-//METHOD es un método de solicitud HTTP.
-//PATH es una vía de acceso en el servidor.
-//HANDLER es la función que se ejecuta cuando se correlaciona la ruta.
 app.get('/playerid/:value', getPlayerId);
+// app.get('/playerid/:value', validarDiamante);
+
 app.get('/runes/:value', getRunes);
 app.get('/masteries/:value', getMasteries);
 app.get('/league/:value', getPlayerLeague);
 app.get('/champm/:value', getChampMastery);
+
+ //app.use(errorHandler);
 //next pasa el control a la siguiente función del middleware, de lo contrario la solicitud quedará colgada
 function getPlayerId(req, res, next) {
   let value = req.params.value; //SummonerId o summoner Name
   let server = req.query.server || 'la1';
-  console.log(value)
   riotApi.getPlayerId(value, server).then((playerId) => {
 
     /**
     *Datos del request obtenidos y mostrados en forma de JSON
     */
     res.json(playerId);
+    //req.X = {};
+    //req.X.riotResponse = playerId;
+    //next();
   }, (error) => {
     console.log('error', error);
-    next(error);
+    next(new Error('Ocurrio un Error'));
   });
+}
+
+
+function errorHandler(error, req, res, next){
+  res.json({errors: [error]})
+}
+
+
+function validarDiamante(req, res, next){
+  console.log(req.X);
+  res.json(req.X);
 }
 
 function getRunes(req, res, next) {

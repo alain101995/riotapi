@@ -1,5 +1,5 @@
 const request = require("request");
-const API_KEY = "RGAPI-5062bed1-4539-4707-8480-c54cba8e6121";
+const API_KEY = "RGAPI-624bc264-19b4-44ad-b976-c1f9db4033d8";
 
 function buildUrl(value, server, endpoint) {
   return `https://${server}.api.riotgames.com/${endpoint}/${value}`;
@@ -53,8 +53,6 @@ var getPlayerLeague = function(value, server) {
   return makeRequest(url);
   */
 }
-
-
 /**
 * Obtener maestrias
 * Consultar la API de Riot para obtener una lista de maestrias

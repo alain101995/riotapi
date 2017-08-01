@@ -1,6 +1,6 @@
-var summoner = document.getElementById('summoner');
-var sumid;
+
 /*
+var sumid;
 function getSumId(){
 $.ajax({
   url: 'http://127.0.0.1:3000/playerid/Alainlegend', //+ summoner.value,
@@ -16,123 +16,105 @@ $.ajax({
 });
 }
 */
-$('#search').click(function() {
-  if ($('#champmasterie').is(':checked')) {
-    $('#search').attr("disabled", true)
-    $("#result").empty();
-    $.ajax({
-      url: 'http://127.0.0.1:3000/champm/' + summoner.value,
-      cache: false,
-      method: 'get',
-      success: function(data) {
-        var tr;
-        for (var i = 0; i < data.length; i++) {
-          tr = $('<tr/>');
-          tr.append("<td>" + data[i].championId + "</td>");
-          tr.append("<td>" + data[i].championPoints + "</td>");
-          $('#result').append(tr);
-        }
-      },
-      complete: function(){
-        $('#search').attr("disabled", false);
-      },
-      error: function(jqXHR, textStatus, errorThrown) {
-        alert('error ' + textStatus + " " + errorThrown);
-      }
-    });
+$(document).ready(function() {
+  var summoner = $('#summoner').val()
+  var server = 'http://127.0.0.1:3000'
+  
+  $('#search').click(function() {
+    var radioValue = $("input[type='radio']:checked").val();
+    switch (radioValue) {
+      case 'champmasterie':
+        $('#search').attr("disabled", true)
+        $("#result").empty();
+        $.ajax({
+          url: server + '/champm/' + summoner,
+          cache: false,
+          method: 'get',
+          success: function(data) {
+            var tr;
+            for (var i = 0; i < data.length; i++) {
+              tr = $('<tr/>');
+              tr.append("<td>" + data[i].championId + "</td>");
+              tr.append("<td>" + data[i].championPoints + "</td>");
+              $('#result').append(tr);
+            }
+          },
+          complete: disableSearch,
+          error: errorHandler
+        });
+        break;
+
+      case 'playerLeague':
+        $('#search').attr("disabled", true)
+        $("#result").empty();
+        $.ajax({
+          url: server + '/league/' + summoner,
+          cache: false,
+          method: 'get',
+          success: function(data) {
+            var tr;
+            for (var i = 0; i < data.length; i++) {
+              tr = $('<tr/>');
+              tr.append("<td>" + data[i].name + "</td>");
+              tr.append("<td>" + data[i].tier + "</td>");
+              $('#result').append(tr);
+            }
+          },
+          complete: disableSearch,
+          error: errorHandler
+        });
+        break;
+
+      case 'runes':
+        $('#search').attr("disabled", true)
+        $("#result").empty();
+        $.ajax({
+          url: server + '/runes/' + summoner,
+          cache: false,
+          method: 'get',
+          success: function(data) {
+            var tr;
+            for (var i = 0; i < data.pages.length; i++) {
+              tr = $('<tr/>');
+              tr.append("<td>" + data.pages[i].id + "</td>");
+              tr.append("<td>" + data.pages[i].name + "</td>");
+              $('#result').append(tr);
+            }
+          },
+          complete: disableSearch,
+          error: errorHandler
+        });
+        break;
+
+      case 'masteries':
+        $('#search').attr("disabled", true)
+        $("#result").empty();
+        $.ajax({
+          url: server + '/masteries/' + summoner,
+          cache: false,
+          method: 'get',
+          success: function(data) {
+            var tr;
+            for (var i = 0; i < data.pages.length; i++) {
+              tr = $('<tr/>');
+              tr.append("<td>" + data.pages[i].id + "</td>");
+              tr.append("<td>" + data.pages[i].name + "</td>");
+              $('#result').append(tr);
+            }
+          },
+          complete: disableSearch,
+          error: errorHandler
+        });
+        break;
+    }
+  });
+
+  function errorHandler(jqXHR, textStatus, errorThrown) {
+    alert('error ' + textStatus + " " + errorThrown);
+    console.log('ocurrio un error');
   }
-})
 
-$('#search').click(function() {
-  if ($('#playerLeague').is(':checked')) {
-    $('#search').attr("disabled", true)
-    $("#result").empty();
-    $.ajax({
-      url: 'http://127.0.0.1:3000/league/' + summoner.value,
-      cache: false,
-      method: 'get',
-      success: function(data) {
-
-        var tr;
-        for (var i = 0; i < data.length; i++) {
-          tr = $('<tr/>');
-          tr.append("<td>" + data[i].name + "</td>");
-          tr.append("<td>" + data[i].tier + "</td>");
-          $('#result').append(tr);
-        }
-      },
-      complete: function(){
-        $('#search').attr("disabled", false);
-      },
-      error: function(jqXHR, textStatus, errorThrown) {
-        alert('error ' + textStatus + " " + errorThrown);
-      }
-    });
+  function disableSearch() {
+    $('#search').attr("disabled", false);
   }
-})
-
-$('#search').click(function() {
-  if ($('#runes').is(':checked')) {
-    $('#search').attr("disabled", true)
-
-    $("#result").empty();
-    $.ajax({
-      url: 'http://127.0.0.1:3000/runes/' + summoner.value,
-      cache: false,
-      method: 'get',
-      success: function(data) {
-        var tr;
-        for (var i = 0; i < data.pages.length; i++) {
-          tr = $('<tr/>');
-          tr.append("<td>" + data.pages[i].id + "</td>");
-          tr.append("<td>" + data.pages[i].name + "</td>");
-          $('#result').append(tr);
-        }
-      },
-      complete: function(){
-        $('#search').attr("disabled", false);
-      },
-      error: function(jqXHR, textStatus, errorThrown) {
-        alert('error ' + textStatus + " " + errorThrown);
-      }
-    });
-  }
-})
-
-$('#search').click(function() {
-  if ($('#masteries').is(':checked')) {
-    $('#search').attr("disabled", true)
-
-    $("#result").empty();
-
-    console.log('haciendo llamada');
-    $.ajax({
-      url: 'http://127.0.0.1:3000/masteries/' + summoner.value,
-      cache: false,
-      method: 'get',
-      success: function(data) {
-        console.log('resultado exitoso');
-        var tr;
-        for (var i = 0; i < data.pages.length; i++) {
-          tr = $('<tr/>');
-          tr.append("<td>" + data.pages[i].id + "</td>");
-          tr.append("<td>" + data.pages[i].name + "</td>");
-          $('#result').append(tr);
-        }
-      },
-      complete: function(){
-        $('#search').attr("disabled", false);
-        console.log('siempre al terminar');
-      },
-      error: function(jqXHR, textStatus, errorThrown) {
-        alert('error ' + textStatus + " " + errorThrown);
-        console.log('ocurrio un error');
-      }
-    });
-    console.log('despues de llamada');
-
-  }
-})
-function disableSearch(){
-
-}
+});
