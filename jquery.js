@@ -1,7 +1,5 @@
-
 /*
 var sumid;
-function getSumId(){
 $.ajax({
   url: 'http://127.0.0.1:3000/playerid/', + summoner,
   cache: false,
@@ -12,12 +10,12 @@ $.ajax({
   },
   error: errorHandler
 });
-}*/
+*/
 
 $(document).ready(function() {
-  var summoner = $('#summoner').val()
   var server = 'http://127.0.0.1:3000'
   $('#search').click(function() {
+    var summoner = $('#summoner').val()
     var radioValue = $("input[type='radio']:checked").val();
     switch (radioValue) {
       case 'champmasterie':
@@ -106,12 +104,13 @@ $(document).ready(function() {
     }
   });
 
+  function disableSearch() {
+    $('#search').attr("disabled", false);
+  }
+  //jqXHQ = JQueryXMLHttpRequest
   function errorHandler(jqXHR, textStatus, errorThrown) {
     alert('error ' + textStatus + " " + errorThrown);
     console.log('ocurrio un error');
   }
 
-  function disableSearch() {
-    $('#search').attr("disabled", false);
-  }
 });
