@@ -13,9 +13,9 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.use('/', function(req, res, next) {
+app.get('/', function(req, res) {
   console.log(new Date());
-  next();
+  res.send ("Main Page")
 });
 /*
 Middleware es cualquier numero de funciones que son invocadas por express. Ejemplo:
@@ -60,12 +60,12 @@ function errorHandler(error, req, res, next){
   res.json({errors: [error]})
 }
 
-
+/*
 function validarDiamante(req, res, next){
   console.log(req.X);
   res.json(req.X);
 }
-
+*/
 function getRunes(req, res, next) {
 
   let value = req.params.value;

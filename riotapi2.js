@@ -1,5 +1,5 @@
 const request = require("request");
-const API_KEY = "RGAPI-624bc264-19b4-44ad-b976-c1f9db4033d8";
+const API_KEY = "RGAPI-69e2425c-b127-473b-9787-5ad62dec2ed0";
 
 function buildUrl(value, server, endpoint) {
   return `https://${server}.api.riotgames.com/${endpoint}/${value}`;

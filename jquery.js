@@ -3,23 +3,20 @@
 var sumid;
 function getSumId(){
 $.ajax({
-  url: 'http://127.0.0.1:3000/playerid/Alainlegend', //+ summoner.value,
+  url: 'http://127.0.0.1:3000/playerid/', + summoner,
   cache: false,
   method: 'get',
   success: function(data) {
     sumid = data.id;
     alert(sumid)
   },
-  error: function(jqXHR, textStatus, errorThrown) {
-    alert('error ' + textStatus + " " + errorThrown);
-  }
+  error: errorHandler
 });
-}
-*/
+}*/
+
 $(document).ready(function() {
   var summoner = $('#summoner').val()
   var server = 'http://127.0.0.1:3000'
-  
   $('#search').click(function() {
     var radioValue = $("input[type='radio']:checked").val();
     switch (radioValue) {
