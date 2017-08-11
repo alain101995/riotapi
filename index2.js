@@ -27,13 +27,13 @@ METHOD es un método de solicitud HTTP.
 PATH es una vía de acceso en el servidor.
 HANDLER es la función que se ejecuta cuando se correlaciona la ruta.
 */
-app.get('/playerid/:value', getPlayerId);
+app.get('/api/playerid/:value', getPlayerId);
 // app.get('/playerid/:value', validarDiamante);
 
-app.get('/runes/:value', getRunes);
-app.get('/masteries/:value', getMasteries);
-app.get('/league/:value', getPlayerLeague);
-app.get('/champm/:value', getChampMastery);
+app.get('/api/runes/:value', getRunes);
+app.get('/api/masteries/:value', getMasteries);
+app.get('/api/league/:value', getPlayerLeague);
+app.get('/api/champm/:value', getChampMastery);
 
 //app.use(errorHandler);
 //next pasa el control a la siguiente función del middleware, de lo contrario la solicitud quedará colgada
