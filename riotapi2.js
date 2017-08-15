@@ -1,9 +1,10 @@
 const request = require("request");
-const API_KEY = "RGAPI-2538814f-6dc9-438f-bd7c-406d27ffaa11";
+const API_KEY = "RGAPI-8abbf5b5-21d5-4ded-9ad3-678f68b25259";
 
 function buildUrl(value, server, endpoint) {
   return `https://${server}.api.riotgames.com/${endpoint}/${value}`;
 }
+
 
 var getPlayerId = function(value, server){
   return new Promise(function(resolve, reject){
@@ -77,6 +78,18 @@ var getChampMastery = function(value, server) {
   });
 }
 
+var getMatches = function(value, server) {
+  return new Promise(function(resolve, reject) {
+    let url =  `https://${server}.api.riotgames.com/lol/match/v3/matchlists/by-account/${value}/recent`;
+    makeRequest(url).then((data) => {
+      resolve(data)
+    }).catch(error => {
+      reject(error)
+    })
+  });
+}
+
+
 /**
 * Hacer HTTP Request a la URL solicitada
 * @param {string} url Servidor y Endpoint a consultar
@@ -119,5 +132,6 @@ module.exports = {
   getUrl: buildUrl,
   getPlayerLeague: getPlayerLeague,
   getChampMastery: getChampMastery,
-  getPlayerId:getPlayerId
+  getPlayerId:getPlayerId,
+  getMatches:getMatches
 };
