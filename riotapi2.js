@@ -1,5 +1,5 @@
 const request = require("request");
-const API_KEY = "RGAPI-8abbf5b5-21d5-4ded-9ad3-678f68b25259";
+const API_KEY = "RGAPI-e6f6412b-1bfc-4c25-ad87-dc5f95451acf";
 
 function buildUrl(value, server, endpoint) {
   return `https://${server}.api.riotgames.com/${endpoint}/${value}`;
@@ -62,7 +62,6 @@ var getPlayerLeague = function(value, server) {
 * @return {Promise}
 */
 var getChampMastery = function(value, server) {
-  console.log(value, server);
   return new Promise(function(resolve, reject) {
     // Generar URL incluyendo parametros del summoner y servidor
     let url = buildUrl(value, server, 'lol/champion-mastery/v3/champion-masteries/by-summoner');

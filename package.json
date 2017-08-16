@@ -1,0 +1,19 @@
+{
+  "name": "riotapi",
+  "version": "1.0.0",
+  "description": "Json to table -------------- http://json2table.com/ https://stackoverflow.com/questions/11922383/access-process-nested-objects-arrays-or-json",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alain101995/riotapi.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alain101995/riotapi/issues"
+  },
+  "homepage": "https://github.com/alain101995/riotapi#readme"
+}
