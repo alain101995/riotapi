@@ -88,6 +88,17 @@ var getMatches = function(value, server) {
   });
 }
 
+var getChampions = function(server){
+  return new Promise(function(resolve, reject){
+    let url = `https://${server}.api.riotgames.com/lol/static-data/v3/champions`;
+    makeRequest(url).then((data) => {
+      resolve(data)
+    }).catch(error => {
+      reject(error)
+    })
+  });
+}
+
 
 /**
 * Hacer HTTP Request a la URL solicitada
@@ -132,5 +143,6 @@ module.exports = {
   getPlayerLeague: getPlayerLeague,
   getChampMastery: getChampMastery,
   getPlayerId:getPlayerId,
-  getMatches:getMatches
+  getMatches:getMatches,
+  getChampions:getChampions
 };
