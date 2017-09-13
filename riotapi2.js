@@ -1,5 +1,5 @@
 const request = require("request");
-const API_KEY = "RGAPI-e6f6412b-1bfc-4c25-ad87-dc5f95451acf";
+const API_KEY = "RGAPI-c0fcbf80-a62b-4cf2-8400-c79e26993262";
 
 function buildUrl(value, server, endpoint) {
   return `https://${server}.api.riotgames.com/${endpoint}/${value}`;
@@ -52,6 +52,10 @@ var getPlayerLeague = function(value, server) {
   /*
   let url = buildUrl(value, server, 'lol/league/v3/leagues/by-summoner');
   return makeRequest(url);
+  Caso 1: Cachear peticion de riot con duración de 1 día
+  Caso 2: Usuario consulta datos cacheados del mismo día
+  Caso 3: Usuario hace consulta forzando petición riot (actualizando cache).
+  Caso 4: Caché expiró y se debe actualizar.
   */
 }
 /**
@@ -88,7 +92,7 @@ var getMatches = function(value, server) {
   });
 }
 
-var getChampions = function(server){
+var getChampions = function(server) {
   return new Promise(function(resolve, reject){
     let url = `https://${server}.api.riotgames.com/lol/static-data/v3/champions`;
     makeRequest(url).then((data) => {
