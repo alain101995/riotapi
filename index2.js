@@ -35,7 +35,6 @@ app.get('/api/masteries/:value', getMasteries);
 app.get('/api/league/:value', getPlayerLeague);
 app.get('/api/champm/:value', getChampMastery);
 app.get('/api/matches/:value', getMatches); //200038705
-app.get('/api/champions/', getChampions);
 //app.use(errorHandler);
 //next pasa el control a la siguiente función del middleware, de lo contrario la solicitud quedará colgada
 function getPlayerId(req, res, next) {
@@ -120,17 +119,6 @@ function getMatches(req, res, next) {
   let server = req.query.server || 'la1';
   riotApi.getMatches(value, server).then((matches) => {
     res.json(matches);
-  }, (error) => {
-    console.log('error', error);
-    next(error);
-  });
-}
-
-function getChampions(req, res, next) {
-
-  let server = req.query.server || 'la1';
-  riotApi.getChampions(server).then((champs) => {
-    res.json(champs);
   }, (error) => {
     console.log('error', error);
     next(error);

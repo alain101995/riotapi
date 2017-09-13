@@ -5,20 +5,19 @@ function buildUrl(value, server, endpoint) {
   return `https://${server}.api.riotgames.com/${endpoint}/${value}`;
 }
 
-
-var getPlayerId = function(value, server){
-  return new Promise(function(resolve, reject){
+var getPlayerId = function (value, server) {
+  return new Promise(function (resolve, reject) {
     let url = buildUrl(value, server, 'lol/summoner/v3/summoners/by-name')
     makeRequest(url).then((data) => {
       resolve(data)
-    }).catch(error =>{
+    }).catch(error => {
       reject(error)
     })
   });
 }
 
-var getMasteries = function(value, server) {
-  return new Promise(function(resolve, reject) {
+var getMasteries = function (value, server) {
+  return new Promise(function (resolve, reject) {
     let url = buildUrl(value, server, 'lol/platform/v3/masteries/by-summoner');
     makeRequest(url).then((data) => {
       //console.log(data)
@@ -29,8 +28,8 @@ var getMasteries = function(value, server) {
   });
 }
 
-var getRunes = function(value, server) {
-  return new Promise(function(resolve, reject) {
+var getRunes = function (value, server) {
+  return new Promise(function (resolve, reject) {
     let url = buildUrl(value, server, 'lol/platform/v3/runes/by-summoner');
     makeRequest(url).then((data) => {
       resolve(data)
@@ -40,8 +39,8 @@ var getRunes = function(value, server) {
   });
 }
 
-var getPlayerLeague = function(value, server) {
-  return new Promise(function(resolve, reject) {
+var getPlayerLeague = function (value, server) {
+  return new Promise(function (resolve, reject) {
     let url = buildUrl(value, server, 'lol/league/v3/leagues/by-summoner');
     makeRequest(url).then((data) => {
       resolve(data)
@@ -50,12 +49,9 @@ var getPlayerLeague = function(value, server) {
     })
   });
   /*
+
   let url = buildUrl(value, server, 'lol/league/v3/leagues/by-summoner');
   return makeRequest(url);
-  Caso 1: Cachear peticion de riot con duración de 1 día
-  Caso 2: Usuario consulta datos cacheados del mismo día
-  Caso 3: Usuario hace consulta forzando petición riot (actualizando cache).
-  Caso 4: Caché expiró y se debe actualizar.
   */
 }
 /**
@@ -65,8 +61,8 @@ var getPlayerLeague = function(value, server) {
 * @param {string} server Identificador del servidor de Riot en donde fue registrada la cuenta
 * @return {Promise}
 */
-var getChampMastery = function(value, server) {
-  return new Promise(function(resolve, reject) {
+var getChampMastery = function (value, server) {
+  return new Promise(function (resolve, reject) {
     // Generar URL incluyendo parametros del summoner y servidor
     let url = buildUrl(value, server, 'lol/champion-mastery/v3/champion-masteries/by-summoner');
 
@@ -81,9 +77,9 @@ var getChampMastery = function(value, server) {
   });
 }
 
-var getMatches = function(value, server) {
-  return new Promise(function(resolve, reject) {
-    let url =  `https://${server}.api.riotgames.com/lol/match/v3/matchlists/by-account/${value}/recent`;
+var getMatches = function (value, server) {
+  return new Promise(function (resolve, reject) {
+    let url = buildUrl(value, server, `lol/match/v3/matchlists/by-account`);
     makeRequest(url).then((data) => {
       resolve(data)
     }).catch(error => {
@@ -91,18 +87,6 @@ var getMatches = function(value, server) {
     })
   });
 }
-
-var getChampions = function(server) {
-  return new Promise(function(resolve, reject){
-    let url = `https://${server}.api.riotgames.com/lol/static-data/v3/champions`;
-    makeRequest(url).then((data) => {
-      resolve(data)
-    }).catch(error => {
-      reject(error)
-    })
-  });
-}
-
 
 /**
 * Hacer HTTP Request a la URL solicitada
@@ -110,7 +94,7 @@ var getChampions = function(server) {
 * @return {Promise}
 */
 function makeRequest(url) {
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     if (!url) {
       // Si la URL está en blanco ('') o no tiene valor (undefined o null)
       reject('something is missing');
@@ -146,7 +130,6 @@ module.exports = {
   getUrl: buildUrl,
   getPlayerLeague: getPlayerLeague,
   getChampMastery: getChampMastery,
-  getPlayerId:getPlayerId,
-  getMatches:getMatches,
-  getChampions:getChampions
+  getPlayerId: getPlayerId,
+  getMatches: getMatches,
 };
