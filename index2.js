@@ -1,28 +1,18 @@
 var express = require('express');
 var app = express();
-// var mongoose = require('mongoose')
-var MongoClient = require('mongodb').MongoClient, assert = require('assert');
+var mongoConn = require('./mongoconn');
 const riotApi = require('./riotapi2');
 const PORT = 3000;
-var url = 'mongodb://localhost:27017/test';
 app.listen(PORT);
-/*
-MongoClient.connect(url, function(err, db) {
-  assert.equal(null, err);
-  console.log("Connected correctly to server");
- 
-  db.close();
-});
-*/
 //req = representa la peticion http que contiene todos los datos de la petición
 //res = representa la respuesta o datos que express da cuando recibe una request
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
 
-app.get('/', function(req, res) {
+app.get('/', function (req, res) {
   console.log(new Date());
   res.send("Main Page")
 });
@@ -48,7 +38,6 @@ function getPlayerId(req, res, next) {
   let value = req.params.value; //SummonerId o summoner Name
   let server = req.query.server || 'la1';
   riotApi.getPlayerId(value, server).then((playerId) => {
-
     //Datos del request obtenidos y mostrados en forma de JSON
     res.json(playerId);
     //req.X = {};
@@ -67,23 +56,12 @@ function errorHandler(error, req, res, next) {
 }
 
 function getRunes(req, res, next) {
-
+  
   let value = req.params.value;
   let server = req.query.server || 'la1';
   riotApi.getRunes(value, server).then((runes) => {
-    
-    MongoClient.connect(url, function(err, db) {
-      if (err) throw err;
-      var myobj = { name: "Company Inc", address: "Highway 37" };
-      db.collection("inventory").insertOne(myobj, function(err, res) {
-        if (err) throw err;
-        console.log("1 document inserted");
-        db.close();
-      });
-    });
-
     res.json(runes);
-      
+    mongoConn.insert(runes); // <------------------------------HERE
   }, (error) => {
     console.log('error', error);
     next(error);
@@ -108,7 +86,7 @@ function getPlayerLeague(req, res, next) {
   let server = req.query.server || 'la1';
   riotApi.getPlayerLeague(value, server).then((playerLeague) => {
     res.json(playerLeague);
-    
+
   }, (error) => {
     console.log('error', error);
     next(error);

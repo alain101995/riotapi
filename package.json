@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/alain101995/riotapi/issues"
   },
-  "homepage": "https://github.com/alain101995/riotapi#readme"
+  "homepage": "https://github.com/alain101995/riotapi#readme",
+  "dependencies": {
+    "mongodb": "^2.2.31"
+  }
 }
