@@ -12,8 +12,19 @@ MongoClient.connect("mongodb://localhost:27017/test", function(err, db) {
   
 });
 }
-// http://theholmesoffice.com/mongoose-connection-best-practice/
-// http://mongoosejs.com/docs/connections.html#use-mongo-client
+/*
+mongoose.Promise = global.Promise;
+connect to mongo function
+core.connect = function connect(opts) {
+  mongoose.Promise = global.Promise;
+  mongoose.connect(`mongodb://${opts.server}:${opts.port}/${opts.db}`);
+  return mongoose.connection;
+};
+const expirationDate = new Schema({
+  expire_at: {type: Date, default: Date.now, expires: 7200} 
+})
 
-mongoose.connect('mongodb://localhost/test');
-var myModel = mongoose.model('Test', new Schema ({ name: String }));
+So for removing documents before 1 September 2013 your command should be
+
+db.user_track.remove( { access_time : {"$lt" : new Date(2013, 8, 1) } })
+*/
