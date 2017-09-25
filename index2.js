@@ -4,7 +4,7 @@ var mongoConn = require('./mongoconn');
 const riotApi = require('./riotapi2');
 const PORT = 3000;
 app.listen(PORT);
-
+// http://fernando-gaitan.com.ar/introduccion-a-node-js-parte-13-crud-con-mongoose/
 var mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost/test', { useMongoClient: true, promiseLibrary: global.Promise });
