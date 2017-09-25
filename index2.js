@@ -4,8 +4,11 @@ var mongoConn = require('./mongoconn');
 const riotApi = require('./riotapi2');
 const PORT = 3000;
 app.listen(PORT);
-// http://fernando-gaitan.com.ar/introduccion-a-node-js-parte-13-crud-con-mongoose/
 var mongoose = require('mongoose');
+mongoose.Promise = global.Promise;
+mongoose.connect('mongodb://localhost/test', { useMongoClient: true, promiseLibrary: global.Promise });
+
+/* var mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost/test', { useMongoClient: true, promiseLibrary: global.Promise });
 var inventory = mongoose.model('inventory', { name: String });
@@ -17,6 +20,11 @@ kitty.save(function (err) {
     console.log('meow');
   }
 });
+
+setInterval(function () {
+  console.log('Hello')
+}, 3000)
+*/
 
 
 //req = representa la peticion http que contiene todos los datos de la petición
@@ -71,12 +79,12 @@ function errorHandler(error, req, res, next) {
 }
 
 function getRunes(req, res, next) {
-  
+
   let value = req.params.value;
   let server = req.query.server || 'la1';
   riotApi.getRunes(value, server).then((runes) => {
     res.json(runes);
-    mongoConn.insert(runes); // <------------------------------HERE
+    mongoConn.dbRunes(runes); // <------------------------------HERE
   }, (error) => {
     console.log('error', error);
     next(error);

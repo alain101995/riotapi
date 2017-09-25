@@ -1,5 +1,8 @@
 # riotapi
 
+Checar base de datos con datos del usuario y revisar si fecha no exceda de 1 día.
+Si no se cumple lo anterior realizar petición al servidor de riot y almacenarlo en la base de datos con una fecha que se hizo la petición.
+
 Json to table
 --------------
 http://json2table.com/
