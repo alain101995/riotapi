@@ -4,6 +4,21 @@ var mongoConn = require('./mongoconn');
 const riotApi = require('./riotapi2');
 const PORT = 3000;
 app.listen(PORT);
+
+var mongoose = require('mongoose');
+mongoose.Promise = global.Promise;
+mongoose.connect('mongodb://localhost/test', { useMongoClient: true, promiseLibrary: global.Promise });
+var inventory = mongoose.model('inventory', { name: String });
+var kitty = new inventory({ name: 'Zildjian' });
+kitty.save(function (err) {
+  if (err) {
+    console.log(err);
+  } else {
+    console.log('meow');
+  }
+});
+
+
 //req = representa la peticion http que contiene todos los datos de la petición
 //res = representa la respuesta o datos que express da cuando recibe una request
 app.use(function (req, res, next) {
