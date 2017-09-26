@@ -1,11 +1,12 @@
-// var MongoClient = require('mongodb').MongoClient;
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
-var storedRunes = {}
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+const storedRunes = {}
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost/test', { useMongoClient: true, promiseLibrary: global.Promise });
 
-var runesSchema = new Schema({
+const runesSchema = new Schema({
+
+  strict: false,
   expireAt: {},
   summonerId: Number,
   pages: [{
@@ -18,41 +19,49 @@ var runesSchema = new Schema({
     }]
   }]
 });
+// new Date('September 25, 2017 14:00:00')
+// new Date().getTime() + 1 * 24 * 60 * 60000
 exports.dbRunes = function (data) {
-  var runesModel = mongoose.model('runes', runesSchema);
+  let runesModel = mongoose.model('runes', runesSchema);
   // console.log('Sent data', data)
-
-  storedRunes[data.summonerId] = data;
-  if (storedRunes[data.summonerId]) {
-    console.log('I have been here before')
-  }
-
   for (let runesOf of data.pages) {
-
-    var runesData = new runesModel({
-      expireAt: new Date('September 25, 2017 14:10:00'),
+    let runesData = new runesModel({
+      expireAt: new Date().getTime() + 1 * 24 * 60 * 60000,
       summonerId: data.summonerId,
       pages: [{
         id: runesOf.id,
         name: runesOf.name,
         current: runesOf.current,
         slots: [{
-          runeSlotId: runesOf.slots.runeSlotId,
-          runeId: runesOf.slots.runeId
+          runeSlotId: 1, //runesOf.slots.runeSlotId
+          runeId: 6 // runesOf.slots.runeId
         }]
       }]
     });
-    console.log('Stored', storedRunes[data.summonerId]);
-    if (Math.round(runesData.expireAt / 1000) < Math.round(new Date().getTime() / 1000)) {
-      // console.log('Expiration Date :', runesData.expireAt / 1000, 'Current Date :', Math.round(new Date().getTime() / 1000))
-      runesData.remove({});
-    } else {
-      // console.log('Current Runes Data', runesData)
+    // If runesData.expireAt < current date ==> update data on database and expire Time
+    
+    // Else return data from database
+    // https://stackoverflow.com/questions/5818303/how-do-i-perform-an-id-array-query-in-mongoose
+    // http://mongoosejs.com/docs/queries.html
+
+    if (runesData.expireAt) { // Math.round(runesData.expireAt / 1000) < Math.round(new Date().getTime() / 1000)
+      runesModel.findOne({ 'summonerId': data.summonerId }, function (err, summonerId) {
+        if(err) return (err);
+        // If(runesData.expireAt < new Date().getTime())
+        console.log('HERE', data.summonerId)
+      });
+      // console.log('Expiration Time', runesData.expireAt, 'Current Time', new Date().getTime())
       runesData.save(function (error) {
         console.log('Data saved');
         if (error) {
           console.log(error);
         }
+      });
+      // console.log('Expiration Date :', runesData.expireAt / 1000, 'Current Date :', Math.round(new Date().getTime() / 1000))
+    } else {
+      runesData.remove({}, function (error) { // Remove not working because slots: runeSlotId and runeId is undefined
+        if (error) return ('Error: ', error);
+        console.log('Data removed')
       });
     }
   }
