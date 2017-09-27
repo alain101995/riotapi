@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const runesConn = require('./runesConn');
+const runesConn = require('./connections/runesConn');
 const riotApi = require('./riotapi2');
 const PORT = 3000;
 app.listen(PORT);
@@ -65,16 +65,21 @@ function errorHandler(error, req, res, next) {
 }
 
 function getRunes(req, res, next) {
-
   let value = req.params.value;
-  console.log('value', value)
   let server = req.query.server || 'la1';
-  riotApi.getRunes(value, server).then((runes) => {
-    res.json(runes);
-    runesConn.dbRunes(runes); // <------------------------------HERE
-  }, (error) => {
-    console.log('error', error);
-    next(error);
+
+  runesConn.findInDb(value).then((expirated) => {
+    if (expirated) {
+      riotApi.getRunes(value, server).then((runes) => {
+        console.log('Request made', runes)
+        res.json(runes);
+      }, (error) => {
+        console.log('error', error);
+        next(error);
+      });
+    } else {
+      runesConn.dbRunes(runes); // <------------------------------HERE
+    }
   });
 }
 
