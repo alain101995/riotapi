@@ -2,6 +2,14 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost/test', { useMongoClient: true, promiseLibrary: global.Promise });
+
+const SECOND = 1000,
+  MINUTE = 60,
+  HOUR = 60,
+  DAY = 24;
+
+const ONE_DAY = SECOND * MINUTE * HOUR * DAY;
+
 const runesSchema = new Schema({
   expireAt: Date,
   summonerId: Number,
@@ -15,20 +23,18 @@ const runesSchema = new Schema({
     }]
   }]
 });
-const runesModel = mongoose.model('runes', runesSchema);
+// Crear un modelo con el esquema de runas ^^^^
+const Runes = mongoose.model('runes', runesSchema);
 
-function dbRunes(runes) {
-  let runesData = new runesModel({
-    expireAt: new Date().getTime() + 1 * 24 * 60 * 60000, // new Date('September 25, 2017 14:00:00')   new Date().getTime() + 1 * 24 * 60 * 60000
+function create(runes) {
+  const expireAt = new Date(new Date().getTime() + ONE_DAY);
+  const runesData = new Runes({
+    expireAt,
     summonerId: runes.summonerId,
     pages: runes.pages
   });
-  runesData.save(runes, function (error) {
-    console.log('Data saved');
-    if (error) {
-      console.log(error);
-    }
-  });
+
+  return runesData.save();
 }
 
 function findInDb(summonerId) {
@@ -79,7 +85,7 @@ function save(runes) {
 }
 
 module.exports = {
-  dbRunes: dbRunes,
+  create,
   findInDb: findInDb,
   save: save
 }
