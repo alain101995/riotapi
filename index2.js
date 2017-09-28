@@ -65,45 +65,22 @@ function errorHandler(error, req, res, next) {
 }
 
 function getRunes(req, res, next) {
-  let value = req.params.value; // summonerId
+  let summonerId = req.params.value;
   let server = req.query.server || 'la1';
-
-  runesConn.findInDb(value).then((expirated) => {
-    if (expirated) {
-      riotApi.getRunes(value, server).then((runes) => {
-        runesConn.dbRunes(runes);
-        // runesConn.dbRunes(); // Save
-        // .then(runes) runesConn.remove and save
-        console.log('Request made', runes)
-        res.json(runes);
-      }, (error) => {
-        console.log('error', error);
-        next(error);
-      });
-    } else {
-      // Return data from database
+  runesConn.findInRunesDb(summonerId).then((runes) => {
+    if (runes) {
+      console.log('Theres Data');
+      res.json(runes);
+      console.log(res.json(runes));
+      return;
     }
-  });
+    riotApi.getRunes(summonerId, server)
+      .then(runesConn.create)
+      .then(res.json())
+      .catch(next); // 
+  }, next);
 }
 
-/* 
-  runesConn.findInDb(value).then((expirated) => {
-    if (expirated) {
-      riotApi.getRunes(value, server).then((runes) => {
-        // .then() runesConn.remove and save
-        console.log('Request made', runes)
-        res.json(runes);
-      }, (error) => {
-        console.log('error', error);
-        next(error);
-      });
-    } else {
-      // Return data from database
-      runesConn.dbRunes(runes); // <------------------------------HERE
-    }
-  });
-}
-*/
 function getMasteries(req, res, next) {
 
   let value = req.params.value;

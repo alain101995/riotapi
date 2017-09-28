@@ -4,6 +4,7 @@ Checar base de datos con datos del usuario y revisar si fecha no exceda de 1 dí
 Si no se cumple lo anterior realizar petición al servidor de riot y almacenarlo en la base de datos con una fecha que se hizo la petición.
 https://www.youtube.com/watch?v=o_1-Kge54K4
 
+Proyecto de inovación tecnologica y aprendizaje
 Json to table
 --------------
 http://json2table.com/
