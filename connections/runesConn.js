@@ -15,13 +15,13 @@ const runesSchema = new Schema({
     }]
   }]
 });
-
 const runesModel = mongoose.model('runes', runesSchema);
-dbRunes = function (data) {
-  for (let runesOf of data.pages) {
+
+dbRunes = function (runes) {
+  for (let runesOf of runes.pages) {
     let runesData = new runesModel({
       expireAt: new Date().getTime() + 1 * 24 * 60 * 60000, // new Date('September 25, 2017 14:00:00')   new Date().getTime() + 1 * 24 * 60 * 60000
-      summonerId: data.summonerId,
+      summonerId: runes.summonerId,
       pages: [{
         id: runesOf.id,
         name: runesOf.name,
@@ -47,6 +47,8 @@ findInDb = function (summonerId) {
         resolve(true); // summonerId.summonerId or boolean
       } else {
         console.log('Not expired yet')
+        // return data
+        // https://stackoverflow.com/questions/14103615/mongoose-get-full-list-of-users
         resolve(false);
       }
     }).catch(error => {
