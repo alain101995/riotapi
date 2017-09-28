@@ -67,32 +67,26 @@ function errorHandler(error, req, res, next) {
 function getRunes(req, res, next) {
   let value = req.params.value; // summonerId
   let server = req.query.server || 'la1';
-  let promiseRunes = new Promise(function (resolve, reject) {
-   runesConn.findInDb(value).then((expirated) => {
-    if(expirated) {
+
+  runesConn.findInDb(value).then((expirated) => {
+    if (expirated) {
       riotApi.getRunes(value, server).then((runes) => {
-        // .then() runesConn.remove and save
+        runesConn.dbRunes(runes);
+        // runesConn.dbRunes(); // Save
+        // .then(runes) runesConn.remove and save
         console.log('Request made', runes)
         res.json(runes);
+      }, (error) => {
+        console.log('error', error);
+        next(error);
       });
     } else {
-      runesConn.dbRunes(runes);
-    }
-   });
-
-    if (runes) {
-      resolve("Stuff worked!");
-    }
-    else {
-      reject(Error("It broke"));
+      // Return data from database
     }
   });
-  promiseRunes.then((message) => {
+}
 
-  }).then(() => {
-
-  })
-
+/* 
   runesConn.findInDb(value).then((expirated) => {
     if (expirated) {
       riotApi.getRunes(value, server).then((runes) => {
@@ -109,7 +103,7 @@ function getRunes(req, res, next) {
     }
   });
 }
-
+*/
 function getMasteries(req, res, next) {
 
   let value = req.params.value;
