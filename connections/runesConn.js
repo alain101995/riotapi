@@ -41,22 +41,34 @@ function create(runes) {
 
 function findInRunesDb(summonerId) {
   return new Promise(function (resolve, reject) {
-    Runes.find({}, 'expireAt summonerId pages', function (err, runesData) {
-      console.log('Runes Data', runesData);
-
-      // Runes.findOne('summonerId', function (err, runesData) {}) // ...
-      if (runesData.expireAt < new Date(new Date().getTime())) {
-        // Added + 1 * 24 * 60 * 60000 so the current date is gonna be bigger than expiration date on current data on database (// 9/27/2017, 2:42:03 PM). But it needs to be skipped
-        console.log('Data expired', runesData.expireAt, 'My Time', new Date(new Date().getTime()));
-        resolve(true); // summonerId.summonerId or boolean
+    // Runes.find({}, 'expireAt summonerId pages', function (err, runesData) {
+    Runes.find({ 'summonerId': summonerId }, 'summonerId expireAt pages', function (err, runesData) {
+      if (runesData.length < 1) {
+        console.log('Theres no data (connection)')
+        resolve(false)
       } else {
-        console.log('Not expired yet', runesData.expireAt, 'My Time', new Date(new Date().getTime()));
-        resolve(false);
+        if (runesData[0].expireAt < new Date(new Date().getTime())) // Data is nos being used yet but already saves data if summonerId is not in db
+        console.log('Runes Data (Connection)', runesData);
+        resolve(runesData)
       }
-      reject(err);
-    })
-
-    // summonerId.expireAt < new Date(new Date()).getTime()
+      reject(err)
+      /*
+            // Runes.findOne('summonerId', function (err, runesData) {}) // ...
+            if (runesData.expireAt < new Date(new Date().getTime())) {
+              // Added + 1 * 24 * 60 * 60000 so the current date is gonna be bigger than expiration date on current data on database (// 9/27/2017, 2:42:03 PM). But it needs to be skipped
+              console.log('Data expired', runesData.expireAt, 'My Time', new Date(new Date().getTime()));
+              resolve(runesData); // summonerId.summonerId or boolean
+            } else {
+              console.log('Not expired yet', runesData.expireAt, 'My Time', new Date(new Date().getTime()));
+              resolve(false);
+            }
+            reject(err);
+          })
+      
+          // summonerId.expireAt < new Date(new Date()).getTime()
+        });
+        */
+    });
   });
 }
 

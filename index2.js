@@ -69,7 +69,7 @@ function getRunes(req, res, next) {
   let server = req.query.server || 'la1';
   runesConn.findInRunesDb(summonerId).then((runes) => {
     if (runes) {
-      console.log('Theres Data');
+      console.log('Theres Data (index2)');
       res.json(runes);
       console.log(res.json(runes));
       return;
