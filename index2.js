@@ -49,10 +49,6 @@ function getPlayerId(req, res, next) {
   riotApi.getPlayerId(value, server).then((playerId) => {
     //Datos del request obtenidos y mostrados en forma de JSON
     res.json(playerId);
-    //req.X = {};
-    //req.X.riotResponse = playerId;
-    //next();
-  }, (error) => {
     console.log('error', error);
     next(new Error('Ocurrio un Error'));
   });
@@ -67,17 +63,18 @@ function errorHandler(error, req, res, next) {
 function getRunes(req, res, next) {
   let summonerId = req.params.value;
   let server = req.query.server || 'la1';
+  console.log('Summoner Id (index2)', summonerId)
   runesConn.findInRunesDb(summonerId).then((runes) => {
+    // console.log('Theres runes data?', runes)
     if (runes) {
-      console.log('Theres Data (index2)');
       res.json(runes);
-      console.log(res.json(runes));
       return;
     }
     riotApi.getRunes(summonerId, server)
+      .then(runesConn.remove(summonerId))
       .then(runesConn.create)
       .then(res.json())
-      .catch(next); // 
+      .catch(next);
   }, next);
 }
 

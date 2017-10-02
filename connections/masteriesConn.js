@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost/test', { useMongoClient: true, promiseLibrary: global.Promise });
 const masteriesSchema = new Schema({
-    expireAt: {},
+    expireAt: Date,
     summonerId: Number,
     pages: Array
 });
