@@ -20,7 +20,7 @@ function findInRunesDb(summonerId) {
   return new Promise(function (resolve, reject) {
     Runes.find({ 'summonerId': summonerId }, 'summonerId name expireAt pages', function (err, runesData) {
       console.log('RunesData', runesData)
-      if ( runesData.length < 1 || runesData[0].expireAt < new Date(new Date().getTime())) { // <======== change > for <
+      if (runesData.length < 1 || runesData[0].expireAt < new Date(new Date().getTime())) {
         // console.log('Theres no data or its expired (connection)', runesData[0].expireAt, 'My Time', new Date(new Date().getTime()));
         // console.log('Runes Data', runesData)
         resolve(false)
@@ -36,7 +36,6 @@ function findInRunesDb(summonerId) {
 
 function create(runes) {
   const expireAt = new Date(new Date().getTime() + oneDay),
-    // new Date('September 25, 2017 14:00:00') new Date(new Date().getTime() + oneDay)  new Date().getTime() + 1 * 24 * 60 * 60000
     runesData = new Runes({
       expireAt,
       summonerId: runes.summonerId,

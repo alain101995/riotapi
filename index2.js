@@ -49,8 +49,9 @@ function getPlayerId(req, res, next) {
   riotApi.getPlayerId(value, server).then((playerId) => {
     //Datos del request obtenidos y mostrados en forma de JSON
     res.json(playerId);
+  }, (error) => {
     console.log('error', error);
-    next(new Error('Ocurrio un Error'));
+    next(error);
   });
 }
 
@@ -75,7 +76,10 @@ function getRunes(req, res, next) {
       .then(runesConn.create)
       .then(res.json())
       .catch(next);
-  }, next);
+  }, (error) => {
+    console.log('error', error);
+    next(error);
+  });
 }
 
 function getMasteries(req, res, next) {
