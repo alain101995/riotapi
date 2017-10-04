@@ -69,8 +69,10 @@ function getRunes(req, res, next) {
     // console.log('Theres runes data?', runes)
     if (runes) {
       res.json(runes);
+      console.log('Data returned from database')
       return;
     }
+    console.log('Data returned from request')
     riotApi.getRunes(summonerId, server)
       .then(runesConn.remove(summonerId))
       .then(runesConn.create)
@@ -81,7 +83,14 @@ function getRunes(req, res, next) {
     next(error);
   });
 }
-
+/*
+  riotApi.getRunes(summonerId, server).then((runes) => {
+    res.json(runes);
+  }, (error) => {
+    console.log('error', error);
+    next(error);
+  });
+  */
 function getMasteries(req, res, next) {
 
   let value = req.params.value;
